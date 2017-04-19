@@ -1,31 +1,67 @@
-# http://docs.python-guide.org/en/latest/scenarios/scrape/
+# http://matatat.org/yelp-timelines.html
 
-from lxml import html
-import requests
+import json
+import urllib2
 
-# the html page where the data is
-print 'requests.get ...'
-page = requests.get('http://econpy.pythonanywhere.com/ex/001.html')
+import oauth2
 
-# Use page.content rather than page.text because html.fromstring implicitly expects bytes as input.
-print 'html.fromstring ...'
-tree = html.fromstring(page.content)
+# Use your own keys here
+TOKEN = None
+TOKEN_SECRET = None
+CONSUMER = None
+CONSUMER_SECRET = None
 
-# Page data is contained in two elements - one is a div with title 'buyer-name' and the other is a span with class 'item-price':
-# <div title="buyer-name">Carson Busses</div>
-# <span class="item-price">$29.95</span>
+# This function performs a Yelp API request, taken from Yelp's python example
+def api_request(url, url_params):
+    """ Make a request with Yelp's API """
+    consumer = oauth2.Consumer(CONSUMER, CONSUMER_SECRET)
+    token = oauth2.Token(TOKEN, TOKEN_SECRET)
 
-# This will create a list of buyers:
-print 'buyers tree.xpath ...'
-buyers = tree.xpath('//div[@title="buyer-name"]/text()')
+    oauth_request = oauth2.Request(method="GET", url=url, 
+                                   parameters=url_params)
+    oauth_request.update({'oauth_nonce': oauth2.generate_nonce(),
+                          'oauth_timestamp': oauth2.generate_timestamp(),
+                          'oauth_token': TOKEN,
+                          'oauth_consumer_key': CONSUMER})
 
-# This will create a list of prices
-print 'prices tree.xpath ...'
-prices = tree.xpath('//span[@class="item-price"]/text()')
+    oauth_request.sign_request(oauth2.SignatureMethod_HMAC_SHA1(), 
+                               consumer, token)
+    signed_url = oauth_request.to_url()
 
-print ''
-print 'Buyers: ', buyers
-print 'Prices: ', prices
+    conn = urllib2.urlopen(signed_url, None)
+    try:
+        response = json.loads(conn.read())
+    finally:
+        conn.close()
+
+    return response
+
+
+def search(term, location, limit=5):
+    """ Search Yelp with a term and location """
+    url = 'http://api.yelp.com/v2/search'
+    url_params = {'term': term.replace(' ', '+'),
+                  'location': location.replace(' ', '+'),
+                  'limit': limit}
+    response = api_request(url, url_params)
+    bizs = response['businesses']
+    return bizs
+
+from pprint import pprint
+bizs = search('sushi', 'Mission, San Francisco, CA')
+# Look at our results and the ratings
+pprint([(biz['name'], biz['rating']) for biz in bizs])
+
+
+def get_business(biz_id):
+    """ Get business data from Yelp """
+    url = 'http://api.yelp.com/v2/business/{}'.format(biz_id)
+    response = api_request(url, None)
+    return response
+
+
+
+
 
 print ''
 print 'EOF'
