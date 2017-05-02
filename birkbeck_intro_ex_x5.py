@@ -1,3 +1,4 @@
+from __future__ import print_function
 # Write a program that takes a series of numbers (ending in 0).
 # If the current number is the same as the previous number, it says 'Same';
 # If the current number is greater than the previous one, it says 'Up'
@@ -20,26 +21,25 @@
 # Same
 # Enter the next number (0 to finish): 0
 
-from __future__ import print_function
 
 n1 = 0
 n2 = 0
-print('Enter the first number: ', end='')
+print("Enter the first number: ", end='')
 s = raw_input()
 n2 = int(s)
 finished = False
 while not finished:
     n1 = n2
-    print('Enter the next number (0 to finish): ', end='')
+    print("Enter the next number (0 to finish): ", end='')
     s = raw_input()
     n2 = int(s)
     if n2 == 0:
         finished = True
     elif n1 > n2:
-        print ('Down')
+        print ("Down")
     elif n1 < n2:
-        print ('Up')
+        print ("Up")
     else:
-        print ('Same')
+        print ("Same")
 
-print ('Finished!')
+print ("Finished!")

@@ -42,23 +42,23 @@ from __future__ import print_function
 
 n1 = 0
 n2 = 0
-mess = ''
-print('Enter the first number: ', end='')
+mess = ""
+print("Enter the first number: ", end='')
 s = raw_input()
 n2 = int(s)
 finished = False
 while not finished:
     n1 = n2
-    print('Enter the next number (0 to finish): ', end='')
+    print("Enter the next number (0 to finish): ", end='')
     s = raw_input()
     n2 = int(s)
     if n2 == 0:
         finished = True
     elif n1 > n2:
-        mess = mess + 'Down '
+        mess = mess + "Down "
     elif n1 < n2:
-        mess = mess + 'Up '
+        mess = mess + "Up "
     else:
-        mess = mess + 'Same '
+        mess = mess + "Same "
 
 print (mess)

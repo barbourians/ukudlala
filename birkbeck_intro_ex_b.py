@@ -8,8 +8,8 @@ from __future__ import print_function
 #    And now key in another: Dumpty
 #    You have typed: Humpty Dumpty
 
-print ('Please key in a word: ', end='')
+print ("Please key in a word: ", end='')
 word1 = raw_input()
-print ('And now key in another: ', end='')
+print ("And now key in another: ", end='')
 word2 = raw_input()
-print ('You have typed:', word1, word2)
+print ("You have typed:", word1, word2)

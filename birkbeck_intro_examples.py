@@ -31,7 +31,7 @@ if False:
     print(text)
 
 if False:
-    print('Please introduce a number: ', end='')
+    print("Please introduce a number: ", end='')
     word = raw_input()
     n = int(word)
     print('The number was ' + word)
@@ -52,23 +52,23 @@ if False:
     print(str(num))
     
 if False:
-    s = 'software services'
+    s = "software services"
     s = s[0:4] + s[8:9] + s[13:]
     print(s)
-    s = 'artificial reality'
+    s = "artificial reality"
     print(s[11:15] + ' ' + s[0:3])
     length = len(s[11:])
     print(str(length))
 
 if False:
-    print('Please key in a number: ', end='')
+    print("Please key in a number: ", end='')
     s = raw_input()
     num1 = int(s)
-    print('And another: ', end='')
+    print("And another: ", end='')
     s = input()
     num2 = int(s)
     if num1 == num2:
-        print('They are the same.')
+        print("They are the same.")
         
 if True:
     print ('"A" < "9"','A' < '9')
